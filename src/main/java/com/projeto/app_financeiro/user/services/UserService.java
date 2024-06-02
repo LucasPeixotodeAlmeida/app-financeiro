@@ -1,5 +1,6 @@
 package com.projeto.app_financeiro.user.services;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserEntity findUserById(UUID id) {
-        return userRepository.findById(id).orElse(null);
+    public Optional<UserEntity> findUserById(UUID userId) {
+        return userRepository.findById(userId);
     }
+    
 }

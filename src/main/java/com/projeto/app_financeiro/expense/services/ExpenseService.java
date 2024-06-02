@@ -11,14 +11,14 @@ import com.projeto.app_financeiro.expense.repositories.ExpenseRepository;
 
 @Service
 public class ExpenseService {
-     @Autowired
+    @Autowired
     private ExpenseRepository expenseRepository;
 
     public ExpenseEntity addExpense(ExpenseEntity expense) {
         return expenseRepository.save(expense);
     }
 
-    public List<ExpenseEntity> getExpensesByUserId(UUID userId) {
+    public List<ExpenseEntity> getExpensesByUserId(UUID userId){
         return expenseRepository.findByUserId(userId);
     }
 }
