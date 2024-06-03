@@ -18,6 +18,7 @@ public class IncomeDTO {
     
     private UUID id;
     private Double amount;
+    
     @CreationTimestamp
     private LocalDateTime date;
     private UUID userId;

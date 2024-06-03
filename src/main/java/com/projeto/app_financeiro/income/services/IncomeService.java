@@ -21,4 +21,17 @@ public class IncomeService {
     public List<IncomeEntity> getIncomesByUserId(UUID userId) {
         return incomeRepository.findByUserId(userId);
     }
+
+    public IncomeEntity updateIncome(UUID id, Double amount) {
+        IncomeEntity existingIncome = incomeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Income not found with id: " + id));
+
+        existingIncome.setAmount(amount);
+
+        return incomeRepository.save(existingIncome);
+    }
+
+    public void delete(UUID id){
+        incomeRepository.deleteById(id);
+    }
 }

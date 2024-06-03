@@ -5,9 +5,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +34,6 @@ public class IncomeController {
 
     @PostMapping("/")
     public IncomeDTO addIncome(@RequestBody IncomeDTO incomeDTO) {
-        // Validação do DTO (pode ser feita com anotações de validação ou manualmente)
         
         IncomeEntity income = new IncomeEntity();
         income.setAmount(incomeDTO.getAmount());
@@ -63,5 +64,24 @@ public class IncomeController {
         }).collect(Collectors.toList());
 
         return incomeDTOs;
+    }
+
+    @PutMapping("{id}")
+    public IncomeDTO updateIncome(@PathVariable UUID id, @RequestBody IncomeDTO incomeDTO){
+        IncomeEntity savedExpense = incomeService.updateIncome(id, incomeDTO.getAmount());
+
+        IncomeDTO updatedDTO = new IncomeDTO();
+        updatedDTO.setId(savedExpense.getId());
+        updatedDTO.setAmount(savedExpense.getAmount());
+        updatedDTO.setDate(savedExpense.getCreatedAt());
+        updatedDTO.setUserId(savedExpense.getUser().getId());
+
+        return updatedDTO;
+    }
+
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable UUID id){
+        incomeService.delete(id);
     }
 }

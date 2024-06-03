@@ -34,25 +34,21 @@ public class ExpenseController {
 
     @PostMapping("/")
     public ExpenseDTO addExpense(@RequestBody ExpenseDTO expenseDTO) {
-        // Fetch the complete user entity from the user service using the ID
         UUID userId = expenseDTO.getUserId();
         Optional<UserEntity> userOptional = userService.findUserById(userId);
         
-        // If the user is not found, throw an exception or handle it accordingly
         if (!userOptional.isPresent()) {
             throw new RuntimeException("User not found with id: " + userId);
         }
         
         UserEntity user = userOptional.get();
         
-        // Create the expense entity with the fetched user object
         ExpenseEntity expense = new ExpenseEntity();
         expense.setAmount(expenseDTO.getAmount());
         expense.setType(expenseDTO.getType());
         expense.setCreatedAt(expenseDTO.getDate());
         expense.setUser(user);
         
-        // Proceed with saving the expense entity and returning the DTO
         ExpenseEntity savedExpense = expenseService.addExpense(expense);
         expenseDTO.setId(savedExpense.getId());
         return expenseDTO;
@@ -77,10 +73,8 @@ public class ExpenseController {
 
     @PutMapping("/{id}")
     public ExpenseDTO updateExpense(@PathVariable UUID id, @RequestBody ExpenseDTO expenseDTO) {
-        // Update the expense
         ExpenseEntity savedExpense = expenseService.updateExpense(id, expenseDTO.getAmount(), expenseDTO.getType());
 
-        // Convert the updated entity back to a DTO
         ExpenseDTO updatedDTO = new ExpenseDTO();
         updatedDTO.setId(savedExpense.getId());
         updatedDTO.setAmount(savedExpense.getAmount());
