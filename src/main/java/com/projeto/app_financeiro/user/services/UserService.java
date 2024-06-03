@@ -21,5 +21,9 @@ public class UserService {
     public Optional<UserEntity> findUserById(UUID userId) {
         return userRepository.findById(userId);
     }
+
+    public Optional<UserEntity> getUserById(UUID userId) {
+        return userRepository.findById(userId);
+    }
     
 }

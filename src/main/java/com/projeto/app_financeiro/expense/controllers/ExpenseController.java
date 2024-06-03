@@ -6,9 +6,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import com.projeto.app_financeiro.expense.services.ExpenseService;
 import com.projeto.app_financeiro.user.entities.UserEntity;
 import com.projeto.app_financeiro.user.services.UserService;
 
+
 @RestController
 @RequestMapping("/expenses")
 public class ExpenseController {
@@ -27,6 +30,7 @@ public class ExpenseController {
 
     @Autowired
     private UserService userService;
+
 
     @PostMapping("/")
     public ExpenseDTO addExpense(@RequestBody ExpenseDTO expenseDTO) {
@@ -70,6 +74,28 @@ public class ExpenseController {
 
         return expenseDTOs;
     }
+
+    @PutMapping("/{id}")
+    public ExpenseDTO updateExpense(@PathVariable UUID id, @RequestBody ExpenseDTO expenseDTO) {
+        // Update the expense
+        ExpenseEntity savedExpense = expenseService.updateExpense(id, expenseDTO.getAmount(), expenseDTO.getType());
+
+        // Convert the updated entity back to a DTO
+        ExpenseDTO updatedDTO = new ExpenseDTO();
+        updatedDTO.setId(savedExpense.getId());
+        updatedDTO.setAmount(savedExpense.getAmount());
+        updatedDTO.setType(savedExpense.getType());
+        updatedDTO.setDate(savedExpense.getCreatedAt());
+        updatedDTO.setUserId(savedExpense.getUser().getId());
+
+        return updatedDTO;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable UUID id){
+        expenseService.delete(id);
+    }
+    
 
 }
 
