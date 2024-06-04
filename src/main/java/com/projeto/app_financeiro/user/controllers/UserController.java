@@ -23,9 +23,8 @@ public class UserController {
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
 
-        UserEntity registeredUser = userService.registerUser(user);
-
-        userDTO.setId(registeredUser.getId());
+        UserEntity registredUser = userService.registerUser(userDTO);
+        userDTO.setId(registredUser.getId());
         return userDTO;
     }
 }
