@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.projeto.app_financeiro.user.entities.UserEntity;
 
-public interface UserRepository extends JpaRepository<UserEntity, UUID>{
+public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByUsername(String username);
 }
